@@ -4,7 +4,7 @@ var Express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-var fs = require('fs');
+const fs = require('fs');
 var path = require('path');
 var sizeOf = require('image-size');
 var cors = require('cors');
@@ -12,7 +12,6 @@ var morgan = require('morgan');
 const nodemailer = require("nodemailer")
 const mg = require("nodemailer-mailgun-transport")
 const handlebars = require("handlebars")        
-
 const emailTemplateSource = fs.readFileSync(path.join(__dirname, "/template.hbs"), "utf8")
  
 const mailgunAuth = {
@@ -20,7 +19,7 @@ const mailgunAuth = {
     api_key: "c753c0953046fef6e1101341988865cf-f135b0f1-53978998",
     domain: " https://api.mailgun.net/v3/sandbox83b1722954ba484e8ec95bc8f6022eb3.mailgun.org"
   }
-}
+}   
  
 const smtpTransport = nodemailer.createTransport(mg(mailgunAuth))
  
@@ -29,8 +28,8 @@ const template = handlebars.compile(emailTemplateSource)
 const htmlToSend = template({message: "SERVICE IS DOWN!"})
  
 const mailOptions = {
-  from: "duarte.theus@hotmail.com",
-  to: "mduarte.rabello@gmail.com",
+  from: "andrewisi1@gmail.com",
+  to: "andrewisi1@gmail.com",
   subject: "ALERT, SERVICE IS DOWN",
   html: htmlToSend
 }

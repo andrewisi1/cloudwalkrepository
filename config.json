@@ -1,0 +1,8 @@
+{
+"email":"",
+"checkinterval":"",
+"timeout":"",
+"healththreshold":10,
+"unhealththreshold":10
+}
+

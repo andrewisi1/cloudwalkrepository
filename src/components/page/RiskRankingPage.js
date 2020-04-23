@@ -16,7 +16,7 @@ import { TableWithPagination } from '@stickyboard/table';
 
 import ApiManager from 'network/ApiManager';
 import StatusCode from 'network/StatusCode';
-
+import loggingjson from '../../utils/console.json'
 import PageBaseContainer from 'redux/containers/PageBaseContainer';
 
 const styles = (theme) => ({
@@ -31,6 +31,18 @@ const initialLayout = {
     xxs: [{ i: 'RankingTable', x: 0, y: 0, w: 12, h: 15 }],
 };
 
+
+
+getLogging = () => {
+    var Logging = React.createClass({
+        render: function() {
+            return <div><pre>{JSON.stringify(loggingjson, null, 2) }</pre></div>;
+            React.render(<Hello />, document.getElementById('container'));
+
+        }
+    });
+    }
+
 const initialBlocks = [{ i: 'RankingTable' }];
 
 class RiskRankingPage extends React.Component {
@@ -43,73 +55,11 @@ class RiskRankingPage extends React.Component {
         };
     }
 
+
+
     componentDidMount() {
-       // ApiManager.CloudwalkMonitor.readLatest(this.readLatestCallback);
-    }
-/*
-    readLatestCallback = (statusCode, response) => {
-        switch (statusCode) {
-            case StatusCode.OK:
-                let latest = [];
+        this.interval = setInterval(() => this.setState( this.getLogging() ), 1000);    }
 
-                // Sort latest by # of confirmed, deaths, recovered
-                response.sort((a, b) => {
-                    if (a.confirmed !== b.confirmed) {
-                        return (a.confirmed ? a.confirmed : 0) >
-                            (b.confirmed ? b.confirmed : 0)
-                            ? -1
-                            : 1;
-                    } else if (a.deaths !== b.deaths) {
-                        return (a.deaths ? a.deaths : 0) >
-                            (b.deaths ? b.deaths : 0)
-                            ? -1
-                            : 1;
-                    } else {
-                        return (a.recovered ? a.recovered : 0) <
-                            (b.recovered ? b.recovered : 0)
-                            ? -1
-                            : 1;
-                    }
-                });
-                console.log(response);
-
-                response.forEach((data, index) => {
-                    const {
-                        countryregion,
-                        provincestate,
-                        location,
-                        confirmed,
-                        deaths,
-                        recovered,
-                        lastupdate,
-                    } = data;
-
-                    // Extract country region list
-                    let name = countryregion;
-                    if (provincestate !== '') {
-                        name += ` (${provincestate})`;
-                    }
-
-                    latest.push({
-                        ranking: index + 1,
-                        name: name,
-                        confirmed: confirmed,
-                        deaths: deaths,
-                        recovered: recovered,
-                        lastUpdate: lastupdate,
-                    });
-                });
-
-                this.setState({
-                    sortedLatestList: latest,
-                });
-                break;
-            default:
-                alert(response.msg);
-                break;
-        }
-    };
-*/
     generateBlock = (block, data) => {
         const { sortedLatestList } = data;
         const { theme } = this.props;
@@ -134,6 +84,7 @@ class RiskRankingPage extends React.Component {
         return (
             <PageBaseContainer
                 data={this.state}
+                getLogging={this.getLogging}
                 generateBlock={this.generateBlock}
                 initialLayout={initialLayout}
                 initialBlocks={initialBlocks}

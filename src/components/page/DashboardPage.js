@@ -50,45 +50,45 @@ const initialLayout = {
         { i: 'Uptimeevents', x: 0, y: 1, w: 3, h: 2 },
         { i: 'Uptimenow', x: 3, y: 1, w: 3, h: 2 },
         { i: 'DowntimeEvents', x: 6, y: 1, w: 3, h: 2 },
-        { i: 'DowntimeNow', x: 9, y: 1, w: 3, h: 2 },
+     //   { i: 'DowntimeNow', x: 9, y: 1, w: 3, h: 2 },
         { i: 'UptimeGraphs', x: 3, y: 5, w: 3, h: 2 },
-        { i: 'DowntimeGraphs', x: 6, y: 5, w: 3, h: 2 },
+     //   { i: 'DowntimeGraphs', x: 6, y: 5, w: 3, h: 2 },
     ],
     md: [
         { i: 'Status', x: 0, y: 0, w: 12, h: 1 },
         { i: 'Uptimeevents', x: 0, y: 1, w: 3, h: 2 },
         { i: 'Uptimenow', x: 3, y: 1, w: 3, h: 2 },
         { i: 'DowntimeEvents', x: 6, y: 1, w: 3, h: 2 },
-        { i: 'DowntimeNow', x: 9, y: 1, w: 3, h: 2 },
-        { i: 'UptimeGraphs', x: 3, y: 5, w: 3, h: 2 },
-        { i: 'DowntimeGraphs', x: 6, y: 5, w: 3, h: 2 },
+//        { i: 'DowntimeNow', x: 9, y: 1, w: 3, h: 2 },
+       { i: 'UptimeGraphs', x: 3, y: 5, w: 3, h: 2 },
+//        { i: 'DowntimeGraphs', x: 6, y: 5, w: 3, h: 2 },
     ],
     sm: [
         { i: 'Status', x: 0, y: 0, w: 8, h: 1 },
         { i: 'Uptimeevents', x: 0, y: 1, w: 4, h: 2 },
         { i: 'Uptimenow', x: 4, y: 1, w: 4, h: 2 },
         { i: 'DowntimeEvents', x: 0, y: 3, w: 4, h: 2 },
-        { i: 'DowntimeNow', x: 4, y: 3, w: 4, h: 2 },
-        { i: 'UptimeGraphs', x: 4, y: 7, w: 4, h: 2 },
-        { i: 'DowntimeGraphs', x: 0, y: 9, w: 4, h: 2 },
+//        { i: 'DowntimeNow', x: 4, y: 3, w: 4, h: 2 },
+      { i: 'UptimeGraphs', x: 4, y: 7, w: 4, h: 2 },
+//        { i: 'DowntimeGraphs', x: 0, y: 9, w: 4, h: 2 },
     ],
     xs: [
         { i: 'Status', x: 0, y: 0, w: 6, h: 1 },
         { i: 'Uptimeevents', x: 0, y: 1, w: 3, h: 2 },
         { i: 'Uptimenow', x: 3, y: 1, w: 3, h: 2 },
         { i: 'DowntimeEvents', x: 0, y: 3, w: 3, h: 2 },
-        { i: 'DowntimeNow', x: 3, y: 3, w: 3, h: 2 },
-        { i: 'UptimeGraphs', x: 3, y: 7, w: 3, h: 2 },
-        { i: 'DowntimeGraphs', x: 0, y: 9, w: 3, h: 2 },
+//        { i: 'DowntimeNow', x: 3, y: 3, w: 3, h: 2 },
+       { i: 'UptimeGraphs', x: 3, y: 7, w: 3, h: 2 },
+//        { i: 'DowntimeGraphs', x: 0, y: 9, w: 3, h: 2 },
     ],
     xxs: [
         { i: 'Status', x: 0, y: 0, w: 4, h: 1 },
         { i: 'Uptimeevents', x: 0, y: 1, w: 4, h: 3 },
         { i: 'Uptimenow', x: 0, y: 4, w: 4, h: 3 },
         { i: 'DowntimeEvents', x: 0, y: 7, w: 4, h: 3 },
-        { i: 'DowntimeNow', x: 0, y: 10, w: 4, h: 3 },
-        { i: 'UptimeGraphs', x: 0, y: 18, w: 4, h: 3 },
-        { i: 'DowntimeGraphs', x: 0, y: 21, w: 4, h: 3 },
+ //       { i: 'DowntimeNow', x: 0, y: 10, w: 4, h: 3 },
+       { i: 'UptimeGraphs', x: 0, y: 18, w: 4, h: 3 },
+ //       { i: 'DowntimeGraphs', x: 0, y: 21, w: 4, h: 3 },
     ],
 };
 
@@ -97,9 +97,9 @@ const initialBlocks = [
     { i: 'Uptimeevents' },
     { i: 'Uptimenow' },
     { i: 'DowntimeEvents' },
-    { i: 'DowntimeNow' },
+ //   { i: 'DowntimeNow' },
     { i: 'UptimeGraphs' },
-    { i: 'DowntimeGraphs' },
+ //   { i: 'DowntimeGraphs' },
 ];
 let statslabeldatajson = statsjson
 class DashboardPage extends React.Component {
@@ -119,10 +119,12 @@ class DashboardPage extends React.Component {
     componentDidMount() {
    //     ApiManager.CloudwalkMonitor.readBrief(this.readJson);
      //   this.readJson()
-    this.getDataJson()
-    setInterval(this.getDataJson, 1000)
+    //this.getDataJson()
+    this.interval = setInterval(() => this.setState( this.getDataJson() ), 1000);
+    //setInterval(this.getDataJson, 1000)
     }
-        
+
+    
 /*
     readJson = (statusCode, response) => {
         switch (statusCode) {
@@ -151,7 +153,7 @@ class DashboardPage extends React.Component {
                 break;
         }
     };
-  */ 
+  */    
 /*
     readLatestCallback = (statusCode, response) => {
         switch (statusCode) {
@@ -290,7 +292,7 @@ class DashboardPage extends React.Component {
                             unit={''}
                         />
                     </Sticker>
-                );
+                );/*
             case 'Uptimenow':
                 return (
                     <Sticker key={block.i}>
@@ -303,7 +305,7 @@ class DashboardPage extends React.Component {
                             unit={''}
                         />
                     </Sticker>
-                );
+                );*/
             case 'DowntimeEvents':
                 return (
                     <Sticker key={block.i}>
@@ -311,16 +313,14 @@ class DashboardPage extends React.Component {
                             backgroundColor={theme.colors.colorArray[1]}
                             defaultColor={theme.colors.colorLight}
                             valueColor={theme.colors.colorLight}
-                            title={'Downtime Events'}
-                            value={inputDataLabel ? inputDataLabel.qtimeout: 
-                                
-                                
+                            title={'Down Time Events'}
+                            value={inputDataLabel ? inputDataLabel.qtunthres:        
                                 
                                 '-'}
                             unit={''}
                         />
                     </Sticker>
-                );
+                );/*
             case 'DowntimeNow':
                 return (
                     <Sticker key={block.i}>
@@ -330,10 +330,10 @@ class DashboardPage extends React.Component {
                             valueColor={theme.colors.colorLight}
                             title={'Downtimenow'}
                             value={inputDataLabel ? inputDataLabel.qtunthres: '\n\n\n-'}
-                            unit={'%'}
+                            unit={''}
                         />
                     </Sticker>
-                );
+                );*/
             case 'UptimeGraphs':
                 return (
                     <Sticker key={block.i}>
@@ -341,16 +341,16 @@ class DashboardPage extends React.Component {
                             backgroundColor={theme.colors.colorArray[5]}
                             defaultColor={theme.colors.colorLight}
                             valueColor={theme.colors.colorLight}
-                            title={'Up Time'}
-                            value={inputDataLabel ? inputDataLabel.qtuptime: '-'}
+                            title={'Status'}
+                            value={inputDataLabel ? inputDataLabel.state: '-'}
                             unit={''}
                         />
                     </Sticker>
-                );
+                );/*  
             case 'DowntimeGraphs':
                 return (
                     <Sticker key={block.i}>
-                        <NumberWidget
+                        <Nu mberWidget
                             backgroundColor={theme.colors.colorArray[4]}
                             defaultColor={theme.colors.colorLight}
                             valueColor={theme.colors.colorLight}

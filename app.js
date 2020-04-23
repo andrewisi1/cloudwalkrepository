@@ -9,6 +9,32 @@ var path = require('path');
 var sizeOf = require('image-size');
 var cors = require('cors');
 var morgan = require('morgan');
+const nodemailer = require("nodemailer")
+const mg = require("nodemailer-mailgun-transport")
+const handlebars = require("handlebars")        
+
+const emailTemplateSource = fs.readFileSync(path.join(__dirname, "/template.hbs"), "utf8")
+ 
+const mailgunAuth = {
+  auth: {
+    api_key: "c753c0953046fef6e1101341988865cf-f135b0f1-53978998",
+    domain: " https://api.mailgun.net/v3/sandbox83b1722954ba484e8ec95bc8f6022eb3.mailgun.org"
+  }
+}
+ 
+const smtpTransport = nodemailer.createTransport(mg(mailgunAuth))
+ 
+const template = handlebars.compile(emailTemplateSource)
+ 
+const htmlToSend = template({message: "SERVICE IS DOWN!"})
+ 
+const mailOptions = {
+  from: "duarte.theus@hotmail.com",
+  to: "mduarte.rabello@gmail.com",
+  subject: "ALERT, SERVICE IS DOWN",
+  html: htmlToSend
+}
+ 
 
 // Load .env configuration
 const envFilePath = process.env.NODE_ENV === 'production' ? '.env' : '.env.development';
@@ -46,6 +72,15 @@ app.get('/api/json', (req, res) => {
             res.send(JSON.parse(data));
         });
     });
+const dataPath2 = './src/utils/console.json';    
+app.get('/api/loggin', (req, res) => {
+    fs.readFile(dataPath2, 'utf8', (err, data) => {
+        if (err) {
+            throw err;
+        }
+        res.send(JSON.parse(data));
+    });
+});
 // Set port and running environment
 const port = process.env.PORT || 3000
 const env = process.env.NODE_ENV || 'production'
@@ -89,6 +124,12 @@ function Servmonitor() {
         if (err) {
             return console.log(err);
         }
+    let logres = res
+    logres = JSON.stringify(logres)
+    fs.writeFile('./src/utils/console.json', logres, (err) => {
+        if (err) throw err;
+        console.log('Data written to file');
+       });
     match = String(body)
     if (re.test(match)) {
         fs.readFile('./src/utils/stats.json', (err, data) => {
@@ -108,6 +149,7 @@ function Servmonitor() {
             if (err) throw err;
             console.log('Data written to file');
           });
+        
         });
     }else {
         fs.readFile('./src/utils/stats.json', (err, data) => {
@@ -169,6 +211,17 @@ function Servhealth() {
             nohealth = nohealth + 1
             unsuccessful = unsuccessful + 1
             console.log(unsuccessful)    
+            smtpTransport.sendMail(mailOptions, function(error, response) {
+                if (error) {
+                  console.log(error)
+                } else {
+                  console.log("Successfully sent email.")
+                }
+              })
+            
+mg.messages().send(data, function (error, body) {
+	console.log(body);
+});
         }
     });
     if (ishealth < activehealth){
